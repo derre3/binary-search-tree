@@ -6,6 +6,13 @@ function Node(data, left = null, right = null) {
   };
 }
 
+function Tree(arr) {
+  const root = buildTree(arr, 0, arr.length - 1);
+  const print = prettyPrint(root);
+
+  return { root, print };
+}
+
 function buildTree(arr, start, end) {
   if (start > end) return null;
 
@@ -17,7 +24,7 @@ function buildTree(arr, start, end) {
   return node;
 }
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
+function prettyPrint(node, prefix = '', isLeft = true) {
   if (node === null) {
     return;
   }
@@ -28,8 +35,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.left !== null) {
     prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
-};
+}
 
-const arrTest = [1, 2, 3, 4, 5, 6, 7];
-const treeTest = buildTree(arrTest, 0, arrTest.length - 1);
-prettyPrint(treeTest);
+const treeTest = Tree([1, 2, 3, 4, 5, 6, 7]);
+treeTest.print;
