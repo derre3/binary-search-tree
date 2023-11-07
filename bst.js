@@ -7,10 +7,11 @@ function Node(data, left = null, right = null) {
 }
 
 function Tree(arr) {
+  arr = removeDuplicates(arr);
+  arr = mergeSort(arr);
   const root = buildTree(arr, 0, arr.length - 1);
-  const print = prettyPrint(root);
 
-  return { root, print };
+  return { root };
 }
 
 function buildTree(arr, start, end) {
@@ -37,5 +38,29 @@ function prettyPrint(node, prefix = '', isLeft = true) {
   }
 }
 
-const treeTest = Tree([1, 2, 3, 4, 5, 6, 7]);
-treeTest.print;
+function mergeSort(arr) {
+  if (arr.length < 2) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const leftArr = arr.slice(0, mid);
+  const rightArr = arr.slice(mid);
+  return merge(mergeSort(leftArr), mergeSort(rightArr));
+}
+
+function merge(leftArr, rightArr, mergedArr = []) {
+  while (leftArr.length && rightArr.length) {
+    if (leftArr[0] < rightArr[0]) {
+      mergedArr.push(leftArr.shift());
+    } else {
+      mergedArr.push(rightArr.shift());
+    }
+  }
+  return [...mergedArr, ...leftArr, ...rightArr];
+}
+
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
+
+let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const treeTest = Tree(arrTest);
+prettyPrint(treeTest.root);
