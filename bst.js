@@ -11,7 +11,21 @@ function Tree(arr) {
   arr = mergeSort(arr);
   const root = buildTree(arr, 0, arr.length - 1);
 
-  return { root };
+  const insert = (value) => {
+    current = root;
+    while (current.data !== value) {
+      if (current.data > value) {
+        if (current.left === null) return (current.left = Node(value));
+        current = current.left;
+      } else {
+        if (current.right === null) return (current.right = Node(value));
+        current = current.right;
+      }
+    }
+    return console.log(`DUPLICATE VALUE`);
+  };
+
+  return { root, insert };
 }
 
 function buildTree(arr, start, end) {
@@ -63,4 +77,7 @@ function removeDuplicates(arr) {
 
 let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const treeTest = Tree(arrTest);
+treeTest.insert(9000);
+treeTest.insert(0);
 prettyPrint(treeTest.root);
+treeTest.insert(1);
