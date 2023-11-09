@@ -12,7 +12,7 @@ function Tree(arr) {
   const root = buildTree(arr, 0, arr.length - 1);
 
   const insert = (value) => {
-    current = root;
+    let current = root;
     while (current.data !== value) {
       if (current.data > value) {
         if (current.left === null) return (current.left = Node(value));
@@ -25,7 +25,36 @@ function Tree(arr) {
     return console.log(`DUPLICATE VALUE`);
   };
 
-  return { root, insert };
+  const del = (value) => {
+    let path;
+    let pre;
+    let target = root;
+    while (target.data !== value) {
+      if (target.data > value) {
+        pre = target;
+        path = 'left';
+        target = target.left;
+      } else {
+        pre = target;
+        path = 'right';
+        target = target.right;
+      }
+    }
+
+    // leaf delete condition
+    if (!target.left && !target.right) {
+      pre[path] = null;
+      // single child delete condition
+    } else if (!target.left || !target.right) {
+      if (target.left) pre[path] = target.left;
+      else pre[path] = target.right;
+      // two children delete condition
+    } else {
+      console.log('TODO');
+    }
+  };
+
+  return { root, insert, del };
 }
 
 function buildTree(arr, start, end) {
@@ -77,7 +106,4 @@ function removeDuplicates(arr) {
 
 let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const treeTest = Tree(arrTest);
-treeTest.insert(9000);
-treeTest.insert(0);
 prettyPrint(treeTest.root);
-treeTest.insert(1);
