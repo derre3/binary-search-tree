@@ -59,7 +59,17 @@ function Tree(arr) {
     }
   };
 
-  return { root, insert, del };
+  const find = (value) => {
+    let target = root;
+    while (target.data !== value) {
+      if (!target.left && !target.right) return 'VALUE NOT FOUND';
+      if (target.data > value) target = target.left;
+      else target = target.right;
+    }
+    return target;
+  };
+
+  return { root, insert, del, find };
 }
 
 function buildTree(arr, start, end) {
