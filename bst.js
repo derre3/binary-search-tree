@@ -50,7 +50,12 @@ function Tree(arr) {
       else pre[path] = target.right;
       // two children delete condition
     } else {
-      console.log('TODO');
+      let nextGreater = target.right;
+      while (nextGreater.left !== null) {
+        nextGreater = nextGreater.left;
+      }
+      del(nextGreater.data);
+      target.data = nextGreater.data;
     }
   };
 
