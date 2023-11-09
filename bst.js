@@ -15,10 +15,10 @@ function Tree(arr) {
     let current = root;
     while (current.data !== value) {
       if (current.data > value) {
-        if (current.left === null) return (current.left = Node(value));
+        if (!current.left) return (current.left = Node(value));
         current = current.left;
       } else {
-        if (current.right === null) return (current.right = Node(value));
+        if (!current.right) return (current.right = Node(value));
         current = current.right;
       }
     }
@@ -69,7 +69,17 @@ function Tree(arr) {
     return target;
   };
 
-  return { root, insert, del, find };
+  const levelOrder = (callback, node = root) => {
+    let queue = [node];
+    while (queue.length > 0) {
+      if (callback) callback(queue[0]);
+      if (queue[0].left) queue.push(queue[0].left);
+      if (queue[0].right) queue.push(queue[0].right);
+      queue.shift();
+    }
+  };
+
+  return { root, insert, del, find, levelOrder };
 }
 
 function buildTree(arr, start, end) {
@@ -122,3 +132,11 @@ function removeDuplicates(arr) {
 let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const treeTest = Tree(arrTest);
 prettyPrint(treeTest.root);
+
+treeTest.levelOrder(); // does nothing
+treeTest.levelOrder((node) => {
+  console.log(node.data);
+}); // logs data from each node
+treeTest.levelOrder((node) => {
+  console.log(node.data);
+}, treeTest.find(67)); // logs data from each node (treeTest.find return value acts as the root)
