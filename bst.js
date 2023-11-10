@@ -69,19 +69,61 @@ function Tree(arr) {
     return target;
   };
 
-  const levelOrder = (callback, node = root) => {
-    let queue = [node];
-    while (queue.length > 0) {
-      if (callback) callback(queue[0]);
-      if (queue[0].left) queue.push(queue[0].left);
-      if (queue[0].right) queue.push(queue[0].right);
-      queue.shift();
+  const levelOrder = (root, callback) => {
+    const arr = [];
+    let queue = [root];
+    let index = 0;
+    while (queue[index]) {
+      if (callback) callback(queue[index]);
+      else arr.push(queue[index].data);
+      if (queue[index].left) queue.push(queue[index].left);
+      if (queue[index].right) queue.push(queue[index].right);
+      index += 1;
     }
+    if (!callback) return arr;
   };
 
-  return { root, insert, del, find, levelOrder };
-}
+  const preOrder = (root, callback) => {
+    const arr = [];
+    function rec(node) {
+      if (!node) return;
+      if (callback) callback(node);
+      else arr.push(node.data);
+      rec(node.left);
+      rec(node.right);
+    }
+    rec(root);
+    if (!callback) return arr;
+  };
 
+  const inOrder = (root, callback) => {
+    const arr = [];
+    function rec(node) {
+      if (!node) return;
+      rec(node.left);
+      if (callback) callback(node);
+      else arr.push(node.data);
+      rec(node.right);
+    }
+    rec(root);
+    if (!callback) return arr;
+  };
+
+  const postOrder = (root, callback) => {
+    const arr = [];
+    function rec(node) {
+      if (!node) return;
+      rec(node.left);
+      rec(node.right);
+      if (callback) callback(node);
+      else arr.push(node.data);
+    }
+    rec(root);
+    if (!callback) return arr;
+  };
+
+  return { root, insert, del, find, levelOrder, preOrder, inOrder, postOrder };
+}
 function buildTree(arr, start, end) {
   if (start > end) return null;
 
@@ -131,12 +173,12 @@ function removeDuplicates(arr) {
 
 let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const treeTest = Tree(arrTest);
-prettyPrint(treeTest.root);
+const traversalTest = {
+  levelOrder: treeTest.levelOrder(treeTest.root),
+  preOrder: treeTest.preOrder(treeTest.root),
+  inOrder: treeTest.inOrder(treeTest.root),
+  postOrder: treeTest.postOrder(treeTest.root),
+};
 
-treeTest.levelOrder(); // does nothing
-treeTest.levelOrder((node) => {
-  console.log(node.data);
-}); // logs data from each node
-treeTest.levelOrder((node) => {
-  console.log(node.data);
-}, treeTest.find(67)); // logs data from each node (treeTest.find return value acts as the root)
+console.log(traversalTest);
+prettyPrint(treeTest.root);
