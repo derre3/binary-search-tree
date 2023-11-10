@@ -122,8 +122,34 @@ function Tree(arr) {
     if (!callback) return arr;
   };
 
-  return { root, insert, del, find, levelOrder, preOrder, inOrder, postOrder };
+  const height = (root) => {
+    if (root === null) return 0;
+    let leftHeight = height(root.left);
+    let rightHeight = height(root.right);
+    if (leftHeight > rightHeight) return leftHeight + 1;
+    else return rightHeight + 1;
+  };
+
+  const depth = (node, treeRoot = root) => {
+    if (treeRoot.data === node.data) return 1;
+    if (node.data < treeRoot.data) return depth(node, treeRoot.left) + 1;
+    else return depth(node, treeRoot.right) + 1;
+  };
+
+  return {
+    root,
+    insert,
+    del,
+    find,
+    levelOrder,
+    preOrder,
+    inOrder,
+    postOrder,
+    height,
+    depth,
+  };
 }
+
 function buildTree(arr, start, end) {
   if (start > end) return null;
 
@@ -180,5 +206,4 @@ const traversalTest = {
   postOrder: treeTest.postOrder(treeTest.root),
 };
 
-console.log(traversalTest);
 prettyPrint(treeTest.root);
