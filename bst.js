@@ -141,6 +141,12 @@ function Tree(arr, root = null) {
     else return depth(node, treeRoot.right) + 1;
   };
 
+  const rebalanceTree = () => {
+    arr = inOrder(getRoot());
+    arr = mergeSort(arr);
+    _setRoot(buildTree(arr, 0, arr.length - 1));
+  };
+
   return {
     getRoot,
     insert,
@@ -152,6 +158,7 @@ function Tree(arr, root = null) {
     postOrder,
     height,
     depth,
+    rebalanceTree,
   };
 }
 
@@ -205,10 +212,19 @@ function removeDuplicates(arr) {
 let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const treeTest = Tree(arrTest);
 const traversalTest = {
-  levelOrder: treeTest.levelOrder(treeTest.root),
-  preOrder: treeTest.preOrder(treeTest.root),
-  inOrder: treeTest.inOrder(treeTest.root),
-  postOrder: treeTest.postOrder(treeTest.root),
+  levelOrder: treeTest.levelOrder(treeTest.getRoot()),
+  preOrder: treeTest.preOrder(treeTest.getRoot()),
+  inOrder: treeTest.inOrder(treeTest.getRoot()),
+  postOrder: treeTest.postOrder(treeTest.getRoot()),
 };
 
-prettyPrint(treeTest.root);
+treeTest.insert(7000);
+treeTest.insert(7001);
+treeTest.insert(7002);
+treeTest.insert(7003);
+treeTest.insert(7004);
+treeTest.insert(7005);
+treeTest.insert(7006);
+treeTest.insert(7007);
+treeTest.rebalanceTree();
+prettyPrint(treeTest.getRoot());
