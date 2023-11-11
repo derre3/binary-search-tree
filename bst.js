@@ -14,10 +14,10 @@ function Tree(arr, root = null) {
 
   arr = removeDuplicates(arr);
   arr = mergeSort(arr);
-  const root = buildTree(arr, 0, arr.length - 1);
+  _setRoot(buildTree(arr, 0, arr.length - 1));
 
   const insert = (value) => {
-    let current = root;
+    let current = getRoot();
     while (current.data !== value) {
       if (current.data > value) {
         if (!current.left) return (current.left = Node(value));
@@ -33,7 +33,7 @@ function Tree(arr, root = null) {
   const del = (value) => {
     let path;
     let pre;
-    let target = root;
+    let target = getRoot();
     while (target.data !== value) {
       if (target.data > value) {
         pre = target;
@@ -65,7 +65,7 @@ function Tree(arr, root = null) {
   };
 
   const find = (value) => {
-    let target = root;
+    let target = getRoot();
     while (target.data !== value) {
       if (!target.left && !target.right) return 'VALUE NOT FOUND';
       if (target.data > value) target = target.left;
@@ -74,9 +74,9 @@ function Tree(arr, root = null) {
     return target;
   };
 
-  const levelOrder = (root, callback) => {
+  const levelOrder = (treeRoot, callback) => {
     const arr = [];
-    let queue = [root];
+    let queue = [treeRoot];
     let index = 0;
     while (queue[index]) {
       if (callback) callback(queue[index]);
@@ -88,7 +88,7 @@ function Tree(arr, root = null) {
     if (!callback) return arr;
   };
 
-  const preOrder = (root, callback) => {
+  const preOrder = (treeRoot, callback) => {
     const arr = [];
     function rec(node) {
       if (!node) return;
@@ -97,11 +97,11 @@ function Tree(arr, root = null) {
       rec(node.left);
       rec(node.right);
     }
-    rec(root);
+    rec(treeRoot);
     if (!callback) return arr;
   };
 
-  const inOrder = (root, callback) => {
+  const inOrder = (treeRoot, callback) => {
     const arr = [];
     function rec(node) {
       if (!node) return;
@@ -110,11 +110,11 @@ function Tree(arr, root = null) {
       else arr.push(node.data);
       rec(node.right);
     }
-    rec(root);
+    rec(treeRoot);
     if (!callback) return arr;
   };
 
-  const postOrder = (root, callback) => {
+  const postOrder = (treeRoot, callback) => {
     const arr = [];
     function rec(node) {
       if (!node) return;
@@ -123,26 +123,26 @@ function Tree(arr, root = null) {
       if (callback) callback(node);
       else arr.push(node.data);
     }
-    rec(root);
+    rec(treeRoot);
     if (!callback) return arr;
   };
 
-  const height = (root) => {
-    if (root === null) return 0;
-    let leftHeight = height(root.left);
-    let rightHeight = height(root.right);
+  const height = (treeRoot) => {
+    if (treeRoot === null) return 0;
+    let leftHeight = height(treeRoot.left);
+    let rightHeight = height(treeRoot.right);
     if (leftHeight > rightHeight) return leftHeight + 1;
     else return rightHeight + 1;
   };
 
-  const depth = (node, treeRoot = root) => {
+  const depth = (node, treeRoot = getRoot()) => {
     if (treeRoot.data === node.data) return 1;
     if (node.data < treeRoot.data) return depth(node, treeRoot.left) + 1;
     else return depth(node, treeRoot.right) + 1;
   };
 
   return {
-    root,
+    getRoot,
     insert,
     del,
     find,
