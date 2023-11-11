@@ -6,7 +6,12 @@ function Node(data, left = null, right = null) {
   };
 }
 
-function Tree(arr) {
+function Tree(arr, root = null) {
+  const getRoot = () => root;
+  const _setRoot = (newRoot) => {
+    root = newRoot;
+  };
+
   arr = removeDuplicates(arr);
   arr = mergeSort(arr);
   const root = buildTree(arr, 0, arr.length - 1);
