@@ -14,7 +14,7 @@ function Tree(arr, root = null) {
 
   arr = removeDuplicates(arr);
   arr = mergeSort(arr);
-  _setRoot(buildTree(arr, 0, arr.length - 1));
+  _setRoot(buildTree(arr));
 
   const insert = (value) => {
     let current = getRoot();
@@ -155,7 +155,7 @@ function Tree(arr, root = null) {
   const rebalanceTree = () => {
     arr = inOrder(getRoot());
     arr = mergeSort(arr);
-    _setRoot(buildTree(arr, 0, arr.length - 1));
+    _setRoot(buildTree(arr));
   };
 
   return {
@@ -174,7 +174,7 @@ function Tree(arr, root = null) {
   };
 }
 
-function buildTree(arr, start, end) {
+function buildTree(arr, start = 0, end = arr.length - 1) {
   if (start > end) return null;
 
   const mid = Math.floor((start + end) / 2);
