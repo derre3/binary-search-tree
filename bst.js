@@ -221,14 +221,19 @@ function removeDuplicates(arr) {
   return [...new Set(arr)];
 }
 
-let arrTest = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const treeTest = Tree(arrTest);
-const traversalTest = {
-  levelOrder: treeTest.levelOrder(treeTest.getRoot()),
-  preOrder: treeTest.preOrder(treeTest.getRoot()),
-  inOrder: treeTest.inOrder(treeTest.getRoot()),
-  postOrder: treeTest.postOrder(treeTest.getRoot()),
-};
+function randomNumbers(minValue, maxValue = 100, amount = 10) {
+  const arr = [];
+  if (!minValue) {
+    for (let i = 0; i < amount; i++) {
+      arr.push(Math.floor(Math.random() * maxValue));
+    }
+  } else {
+    for (let i = 0; i < amount; i++) {
+      arr.push(Math.floor(Math.random() * (maxValue - minValue) + minValue));
+    }
+  }
+  return arr;
+}
 
 // treeTest.insert(7000);
 // treeTest.insert(7001);
