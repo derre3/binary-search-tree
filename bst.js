@@ -235,11 +235,31 @@ function randomNumbers(minValue, maxValue = 100, amount = 10) {
   return arr;
 }
 
-// treeTest.insert(7000);
-// treeTest.insert(7001);
-// treeTest.insert(7002);
-// treeTest.insert(7003);
-// treeTest.del(7);
-prettyPrint(treeTest.getRoot());
-// treeTest.rebalanceTree();
-console.log(treeTest.isBalanced());
+function driverScript() {
+  // Create a binary search tree from an array of random numbers < 100.
+  const binaryTree = Tree(randomNumbers());
+  // Confirm that the tree is balanced by calling isBalanced.
+  console.log(binaryTree.isBalanced());
+  // Print out all elements in level, pre, post, and in order.
+  console.log(binaryTree.levelOrder(binaryTree.getRoot()));
+  console.log(binaryTree.preOrder(binaryTree.getRoot()));
+  console.log(binaryTree.inOrder(binaryTree.getRoot()));
+  console.log(binaryTree.postOrder(binaryTree.getRoot()));
+  // Unbalance the tree by adding several numbers > 100.
+  const arr = randomNumbers(101, 1000);
+  arr.forEach((num) => {
+    binaryTree.insert(num);
+  });
+  // Confirm that the tree is unbalanced by calling isBalanced.
+  console.log(binaryTree.isBalanced());
+  // Balance the tree by calling rebalance.
+  binaryTree.rebalanceTree();
+  // Confirm that the tree is balanced by calling isBalanced.
+  console.log(binaryTree.isBalanced());
+  // Print out all elements in level, pre, post, and in order.
+  console.log(binaryTree.levelOrder(binaryTree.getRoot()));
+  console.log(binaryTree.preOrder(binaryTree.getRoot()));
+  console.log(binaryTree.inOrder(binaryTree.getRoot()));
+  console.log(binaryTree.postOrder(binaryTree.getRoot()));
+}
+driverScript();
