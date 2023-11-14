@@ -141,6 +141,17 @@ function Tree(arr, root = null) {
     else return depth(node, treeRoot.right) + 1;
   };
 
+  const isBalanced = (treeRoot = getRoot()) => {
+    let status = true;
+    preOrder(treeRoot, (node) => {
+      if (status === false) return;
+      const heightMin = Math.min(height(node.left), height(node.right));
+      const heightMax = Math.max(height(node.left), height(node.right));
+      if (heightMax - heightMin > 1) return (status = false);
+    });
+    return status;
+  };
+
   const rebalanceTree = () => {
     arr = inOrder(getRoot());
     arr = mergeSort(arr);
@@ -158,6 +169,7 @@ function Tree(arr, root = null) {
     postOrder,
     height,
     depth,
+    isBalanced,
     rebalanceTree,
   };
 }
@@ -218,13 +230,11 @@ const traversalTest = {
   postOrder: treeTest.postOrder(treeTest.getRoot()),
 };
 
-treeTest.insert(7000);
-treeTest.insert(7001);
-treeTest.insert(7002);
-treeTest.insert(7003);
-treeTest.insert(7004);
-treeTest.insert(7005);
-treeTest.insert(7006);
-treeTest.insert(7007);
-treeTest.rebalanceTree();
+// treeTest.insert(7000);
+// treeTest.insert(7001);
+// treeTest.insert(7002);
+// treeTest.insert(7003);
+// treeTest.del(7);
 prettyPrint(treeTest.getRoot());
+// treeTest.rebalanceTree();
+console.log(treeTest.isBalanced());
